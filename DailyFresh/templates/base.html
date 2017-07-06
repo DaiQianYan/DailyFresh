@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!-- 共有的head部分 -->
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<!-- 每个页面标题变量不一样,所以需要传参 -->
+	<title>{{title}} 天天生鲜</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/main.css">
+	<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+	{%block head%}{%endblock head%}
+</head>
+<body>
+
+<!-- 这里坐一个判断, 有的页面不需要用到这一部分, 所以判断, 吧不需要这一部分的页面的top值改成0, 需要的占大部分, 所以默认值设为1 -->
+{%if top|default:'1' == '1'%}
+	<!-- 顶部菜单栏 -->
+	<div class="header_con">
+		<div class="header">
+			<div class="welcome fl">欢迎来到天天生鲜!</div>
+			<div class="fr">
+				<div class="login_info fl">
+					欢迎您：<em>张 山</em>
+				</div>
+				<div class="login_btn fl">
+					<a href="/user/login/">登录</a>
+					<span>|</span>
+					<a href="/user/register/">注册</a>
+				</div>
+				<div class="user_link fl">
+					<span>|</span>
+					<a href="/user/">用户中心</a>
+					<span>|</span>
+					<a href="../cart.html">我的购物车</a>
+					<span>|</span>
+					<a href="../user_center_order.html">我的订单</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 搜索框 -->
+	<div class="search_bar clearfix">
+		<a href="../index.html" class="logo fl"><img src="/static/images/logo.png"></a>
+		<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
+		<div class="search_con fr">
+			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
+			<input type="button" class="input_btn fr" name="" value="搜索">
+		</div>
+	</div>
+{%endif%}
+
+<!-- 为每个页面特有的body部分预留位置 -->
+{%block body%}{%endblock body%}
+
+<!-- 共有的footer部分 -->
+    <div class="footer no-mp">
+		<div class="foot_link">
+			<a href="#">关于我们</a>
+			<span>|</span>
+			<a href="#">联系我们</a>
+			<span>|</span>
+			<a href="#">招聘人才</a>
+			<span>|</span>
+			<a href="#">友情链接</a>
+		</div>
+		<p>CopyRight © 2016 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
+		<p>电话：010-****888    京ICP备*******8号</p>
+	</div>
+
+</body>
+</html>

@@ -37,6 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 1.0注册app应用
+    'DailyFresh_user',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -55,7 +57,8 @@ ROOT_URLCONF = 'DailyFresh.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # 2.0设置模板文件夹路径
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,8 +79,18 @@ WSGI_APPLICATION = 'DailyFresh.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 3.0更改数据库配置为mysql数据库
+        'ENGINE' : 'django.db.backends.mysql',
+        'NAME' : 'DailyFresh',
+        'HOST' : 'localhost',
+        'PORT' : '3306',
+        'USER' : 'root',
+        'PASSWORD' : 'mysql',
+
+
+
     }
 }
 
@@ -85,9 +98,11 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+# 4.0更改语言'en-us'为中文
+LANGUAGE_CODE =  'zh-Hans' 
 
-TIME_ZONE = 'UTC'
+# 4.1更改时区'UTC'为亚洲中国上海时区
+TIME_ZONE = 'Asia/Shanghai' 
 
 USE_I18N = True
 
@@ -100,3 +115,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+# 5.0添加静态文件查找目录
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
