@@ -6,6 +6,7 @@ from .models import UserInfo
 # 导入sha1模块进行加密
 from hashlib import sha1
 import datetime
+from . import user_decorators
 
 
 # Create your views here.
@@ -96,6 +97,8 @@ def login_handle(request):
             # 登陆成功.response是一个简写函数
             response = redirect('/user/')
             request.session['uid'] = result[0].id
+            # 储存登录名
+            request.session['uname'] = result[0].uname
             # 记住用户名
             # 所有从request请求报文得来的数据都是字符串
             if ujz == '1':
@@ -114,6 +117,7 @@ def login_handle(request):
             return render(request, 'DailyFresh_user/login.html', context)
 
 
+@user_decorators.user_islogin
 # 登陆成功后的用户中心视图
 def center(request):
     user = UserInfo.objects.get(pk = request.session['uid'])
@@ -121,12 +125,14 @@ def center(request):
     return render(request, 'DailyFresh_user/center.html', context)
 
 
+@user_decorators.user_islogin
 # 订单视图
 def order(request):
     context = {}
     return render(request, 'DailyFresh_user/order.html', context)
 
 
+@user_decorators.user_islogin
 # 收货地址视图
 def site(request):
     user = UserInfo.objects.get(pk = request.session['uid'])
@@ -151,3 +157,8 @@ def site(request):
 
     # # get请求,查数据,不执行新增数据的代码
     # else:
+
+
+def logout(request):
+    request.session.flush()
+    return redirect('/user/login/')
