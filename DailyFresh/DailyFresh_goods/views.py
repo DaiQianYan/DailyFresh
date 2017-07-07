@@ -13,5 +13,5 @@ def index(request):
         click_list = types.goodsinfo_set.order_by('-gclick')[0 : 4]
         alist.append({'new_list' : new_list, 'click_list' : click_list, 't1' : types})
 
-    context = {'list' : alist, 'title' : '首页'}
+    context = {'alist' : alist, 'title' : '首页'}
     return render(request, 'DailyFresh_goods/index.html', context)
