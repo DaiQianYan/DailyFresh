@@ -18,7 +18,10 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    # 配置DailyFresh_user应用的url
     url(r'^user/', include('DailyFresh_user.urls')),
+    # 配置DailyFresh_goods应用的url
+    url(r'^', include('DailyFresh_goods.urls')),
 
 
     

@@ -95,7 +95,7 @@ def login_handle(request):
     else:
         if result[0].upwd == upwd_sha1:
             # 登陆成功.response是一个简写函数
-            response = redirect('/user/')
+            response = redirect(request.session.get('url_path', '/'))
             request.session['uid'] = result[0].id
             # 储存登录名
             request.session['uname'] = result[0].uname
