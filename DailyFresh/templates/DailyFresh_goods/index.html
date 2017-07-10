@@ -49,7 +49,7 @@
 	<div class="list_model">
 		<div class="list_title clearfix">
 			<!-- {{forloop.counter}}表示当前循环的次数 -->
-			<h3 class="fl" id="model0{{forloop.counter}}">{{dic.t1.ttitle}}</h3>
+			<a href="/list{{forloop.counter}}_1_1/" class="fruit"><h3 class="fl" id="model0{{forloop.counter}}">{{dic.t1.ttitle}}</h3></a>
 			<div class="subtitle fl">
 				<span>|</span>
 				<!-- 点击量最高的四个商品输出 -->
@@ -59,7 +59,7 @@
 
 			</div>
 
-			<a href="/list1_1/" class="goods_more fr" id="fruit_more">查看更多 ></a>
+			<a href="/list{{forloop.counter}}_1_1/" class="goods_more fr" id="fruit_more">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
@@ -80,6 +80,23 @@
 {%endfor%}
 
 <hr/>
+	<script type="text/javascript" src="/static/js/slideshow.js"></script>
+	<script type="text/javascript">
+		BCSlideshow('focuspic');
+		var oFruit = document.getElementById('fruit_more');
+		var oShownum = document.getElementById('show_count');
+
+		var hasorder = localStorage.getItem('order_finish');
+
+		if(hasorder)
+		{
+			oShownum.innerHTML = '2';
+		}
+
+		oFruit.onclick = function(){
+			window.location.href = '/list/';
+		}
+	</script>
 
 
 {%endblock body%}

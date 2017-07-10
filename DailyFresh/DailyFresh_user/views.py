@@ -7,6 +7,8 @@ from .models import UserInfo
 from hashlib import sha1
 import datetime
 from . import user_decorators
+# 从goods模块引入商品信息GoodsInfo
+from DailyFresh_goods.models import GoodsInfo
 
 
 # Create your views here.
@@ -120,8 +122,14 @@ def login_handle(request):
 @user_decorators.user_islogin
 # 登陆成功后的用户中心视图
 def center(request):
+    # 查询当前登录的用户对象
     user = UserInfo.objects.get(pk = request.session['uid'])
-    context = {'user' : user}
+    # 查询最近浏览
+    ids = request.COOKIES.get('goods_ids', '').split(',')[:-1]
+    glist = []
+    for id in ids:
+        glist.append(GoodsInfo.objects.get(id=id))
+    context = {'user' : user, 'glist' : glist}
     return render(request, 'DailyFresh_user/center.html', context)
 
 
@@ -135,6 +143,7 @@ def order(request):
 @user_decorators.user_islogin
 # 收货地址视图
 def site(request):
+    # 查询当前登录的用户对象
     user = UserInfo.objects.get(pk = request.session['uid'])
     # POST请求,接收用户数据.POST说明用户需要新增数据
     if request.method == 'POST':

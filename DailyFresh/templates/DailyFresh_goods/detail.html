@@ -1,34 +1,65 @@
-{%extends 'DailyFresh_goods/base.html'%}
+{% extends 'DailyFresh_goods/base.html' %}
 
-{%block head%}
-	<script type="text/javascript" src="js/jquery-1.12.2.js"></script>
+{% block head %}
 	<script type="text/javascript">
-		var $add_x = $('#add_cart').offset().top;
-		var $add_y = $('#add_cart').offset().left;
+		$(function () {
+			$('#add_cart').click(function(){
+			    var $add_x = $('#add_cart').offset().top;
+				var $add_y = $('#add_cart').offset().left;
 
-		var $to_x = $('#show_count').offset().top;
-		var $to_y = $('#show_count').offset().left;
+				var $to_x = $('#show_count').offset().top;
+				var $to_y = $('#show_count').offset().left;
 
-		$(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'})
-		$('#add_cart').click(function(){
-			$(".add_jump").stop().animate({
-				'left': $to_y+7,
-				'top': $to_x+7},
-				"fast", function() {
-					$(".add_jump").fadeOut('fast',function(){
-						$('#show_count').html(2);
+				$(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'})
+					$(".add_jump").stop().animate({
+						'left': $to_y+7,
+						'top': $to_x+7},
+						"fast", function() {
+							$(".add_jump").fadeOut('fast',function(){
+								$('#show_count').html(2);
+							});
 					});
+				})
 
-			});
-		})
+			// 改变数量
+			// 需要维护
+			$('.num_show').blur(function () {
+				num=parseInt($(this).val());
+				kucun=$('#kucun').val();
+				if(isNaN(num)){
+				    num=1;
+				}
+				if(num<1){
+				    num=1;
+				}
+				if(num>kucun){
+				    num=kucun;
+				}
+				$(this).val(num);
+
+				price=parseFloat($('.show_pirze em').text());
+				$('.total em').text((num*price).toFixed(2)+'元');
+      });
+			$('.add').click(function () {
+			    num=parseInt($('.num_show').val());
+			    num++;
+			    $('.num_show').val(num).blur();
+      });
+			$('.minus').click(function () {
+				num=parseInt($('.num_show').val());
+			    num--;
+			    $('.num_show').val(num).blur();
+      });
+		});
 	</script>
-{%endblock head%}
+{% endblock head %}
 
-{%block detail%}
+{% block detail %}
 	<div class="breadcrumb">
-		<a href="#">全部分类</a>
+		<a href="/">全部分类</a>
 		<span>></span>
-		<a href="#">新鲜水果</a>
+		<!-- 链接需要维护 -->
+		<a href="/list1_1_1/">{{goods.gtype.ttitle}}</a>
 		<span>></span>
 		<a href="#">商品详情</a>
 	</div>
@@ -60,9 +91,9 @@
 			</div>
 		</div>
 	</div>
-{%endblock detail%}
+{% endblock detail %}
 
-{%block right%}
+{% block right %}
 		<div class="r_wrap fr clearfix">
 			<ul class="detail_tab clearfix">
 				<li class="active">商品介绍</li>
@@ -76,5 +107,5 @@
 
 		</div>
 		<div class="add_jump"></div>
-{%endblock right%}
+{% endblock right %}
 	

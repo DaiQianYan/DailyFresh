@@ -41,6 +41,12 @@ INSTALLED_APPS = (
     'DailyFresh_user',
     # 2.1 注册app应用DailyFresh_goods
     'DailyFresh_goods',
+    # 3.1 注册富文本编辑器
+    'tinymce',
+    # 4.1 注册文本索引
+    'haystack',
+    # 5.1 注册购物车
+    'DailyFresh_cart',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -124,3 +130,26 @@ STATICFILES_DIRS = [
 ]
 # 2.2 配置商品文件目录
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+# 3.2 配置富文本编辑器
+TINYMCE_DEFAULT_CONFIG = {
+    'theme' : 'advanced',
+    'width' : 600,
+    'height' : 400,
+}
+
+
+# 4.2 配置搜索引擎
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        #使用whoosh引擎
+        'ENGINE': 'haystack.backends.whoosh_cn_backend.WhooshEngine',
+        #索引文件路径
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    }
+}
+#当添加、修改、删除数据时，自动生成索引
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+# 每页搜索显示的个数
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 12

@@ -22,7 +22,12 @@ urlpatterns = [
     url(r'^user/', include('DailyFresh_user.urls')),
     # 配置DailyFresh_goods应用的url
     url(r'^', include('DailyFresh_goods.urls')),
-
+    # 配置富文本编辑器url
+    url(r'^tinymce/', include('tinymce.urls')),
+    # 配置搜索的url
+    url(r'^search/', include('haystack.urls')),
+    # 配置购物车页面的url
+    url('^cart/',include('DailyFresh_cart.urls')),
 
     
 ]
