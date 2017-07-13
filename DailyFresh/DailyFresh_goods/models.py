@@ -9,6 +9,9 @@ class TypeInfo(models.Model):
 	ttitle = models.CharField(max_length = 10)
 	isDelete = models.BooleanField(default = False)
 
+	def __str__(self):
+		return self.ttitle.encode('utf-8')
+
 
 # 定义商品详细信息,按照给定的goods.sql进行排序
 class GoodsInfo(models.Model):

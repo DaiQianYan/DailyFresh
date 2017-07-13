@@ -36,49 +36,59 @@
 					<span>|</span>
 					<a href="/user/">用户中心</a>
 					<span>|</span>
-					<a href="../cart.html">我的购物车</a>
+					<a href="/cart/">我的购物车</a>
 					<span>|</span>
-					<a href="../user_center_order.html">我的订单</a>
+					<a href="/order/">我的订单</a>
 				</div>
 			</div>
 		</div>
 	</div>
 	
 	<!-- 搜索框 -->
+	<!-- 判断购物车是否显示 -->
 	{% if cart_show|default:'0' == '0' %}
-	<div class="search_bar clearfix">
-		<a href="/" class="logo fl"><img src="/static/images/logo.png"></a>
-		<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
-		<div class="search_con fr">
-			<form method="get" action="/search/" target="_blank">
-				<input type="text" class="input_text fl" name="q" placeholder="搜索商品">
-				<input type="submit" class="input_btn fr" name="" value="搜索">
-			</form>
+		<div class="search_bar clearfix">
+			<a href="/" class="logo fl"><img src="/static/images/logo.png"></a>
+			<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;{{title}}</div>
+			<div class="search_con fr">
+				<form method="get" action="/search/" target="_blank">
+					<input type="text" class="input_text fl" name="q" placeholder="搜索商品">
+					<input type="submit" class="input_btn fr" value="搜索">
+				</form>
+			</div>
 		</div>
-	</div>
-	
+		
 	{% else %}
-	<div class="search_bar clearfix">
-		<a href="/" class="logo fl"><img src="/static/images/logo.png"></a>
-		<div class="search_con fl">
-			<form method="get" action="/search/" target="_blank">
-				<input type="text" class="input_text fl" name="" placeholder="搜索商品">
-				<input type="submit" class="input_btn fr" name="" value="搜索">
-			</form>
+		<div class="search_bar clearfix">
+			<a href="/" class="logo fl"><img src="/static/images/logo.png"></a>
+			<div class="search_con fl">
+				<form method="get" action="/search/" target="_blank">
+					<input type="text" class="input_text fl" name="q" placeholder="搜索商品">
+					<input type="submit" class="input_btn fr" value="搜索">
+				</form>
+			</div>
+			<div class="guest_cart fr">
+				<a href="/cart/" class="cart_name fl">我的购物车</a>
+				<div class="goods_count fl" id="show_count">1</div>
+			</div>
 		</div>
-		<div class="guest_cart fr">
-			<a href="#" class="cart_name fl">我的购物车</a>
-			<div class="goods_count fl" id="show_count">1</div>
-		</div>
-	</div>
+
+		<!-- 判断登录js -->
+		<script>
+			if($('.login_btn').text().indexOf('登录')<0){
+			    $.get('/cart/count/',function (data) {
+					$('#show_count').text(data.count);
+		        });
+			}
+		</script>
 	{% endif %}
-{%endif%}
+{% endif %}
 
 <!-- 为每个页面特有的body部分预留位置 -->
-{%block body%}{%endblock body%}
+{% block body %}{% endblock body %}
 
 <!-- 共有的footer部分 -->
-    <div class="footer no-mp">
+  <div class="footer no-mp">
 		<div class="foot_link">
 			<a href="#">关于我们</a>
 			<span>|</span>

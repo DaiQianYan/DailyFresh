@@ -12,6 +12,7 @@ urlpatterns = [
 	url('^order/$', views.order),
 	url('^site/$', views.site),
 	url('^logout/$', views.logout),
+	url('^islogin/$',views.islogin),
 
 
 ]

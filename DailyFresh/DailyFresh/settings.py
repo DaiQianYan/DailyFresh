@@ -1,3 +1,4 @@
+# coding=utf-8
 """
 Django settings for DailyFresh project.
 
@@ -47,6 +48,8 @@ INSTALLED_APPS = (
     'haystack',
     # 5.1 注册购物车
     'DailyFresh_cart',
+    # 6.1 注册订单页应用
+    'DailyFresh_order',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -152,4 +155,4 @@ HAYSTACK_CONNECTIONS = {
 #当添加、修改、删除数据时，自动生成索引
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 # 每页搜索显示的个数
-HAYSTACK_SEARCH_RESULTS_PER_PAGE = 12
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 3

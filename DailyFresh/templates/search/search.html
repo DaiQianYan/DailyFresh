@@ -15,7 +15,37 @@
             </li>
             {% endfor %}
         </ul>
+    
+
+        <div class="pagenation">
+            <!-- 首页,如果有上一页,显示上一页按钮 -->
+            <!-- 注意,html注释并不能注释模板语言,必须要用模板语言特有的注释 -->
+            <p>{{ page.}}123</p>
+            {% if page.has_previous %}
+            <a href="?q={{query}}&page=1">首页</a>&nbsp;&nbsp;
+            <a href="?q={{query}}&page={{page_obj.number|add:-1}}/"><上一页</a>
+            {% endif %}
+            
+            <!-- 总页数小于5页,循环显示数字页 -->
+            
+            {% for pindex in page_list %}
+                {% if page.number == pindex %}
+                <a href="#" class="active">{{pindex}}</a>
+                {% else %}
+                <a href="?q={{query}}&page={{pindex}}">{{pindex}}</a>
+                {% endif %}
+
+            {% endfor %}
+        
+
+            <!-- 末页,如果有下一页,显示下一页按钮 -->
+            {% if page.has_next %}
+                <a href="?q={{query}}&page={{page_obj.number|add:1}}_{{orderby}}">下一页</a>&nbsp;&nbsp;
+                <a href="?q={{query}}&page={{page_obj.paginator.num_pages}}">末页</a>
+            {% endif %}
+        </div>
     </div>
+    <!-- 跳转至某一页面,由于是购物网站,不知道自己的商品在哪里,所以这个功能没有用,就不做了.要做的话,具体实现就是取到用户输入的值再进行跳转 -->
 {% endblock detail %}
 
 {% block left %} {% endblock left %}

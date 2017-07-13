@@ -6,7 +6,9 @@ from django.core.paginator import Paginator
 
 
 # Create your views here.
+# 设置主页面函数
 def index(request):
+    # 获取产品类型列表
     type_list = TypeInfo.objects.all()
     alist = []
     for types in type_list:
@@ -43,7 +45,7 @@ def goods_list(request, tid, pindex, orderby):
         pindex1 = 1
     if pindex1 >= paginator.num_pages:
         pindex1 = paginator.num_pages
-    page = paginator.page(int(pindex))
+    page = paginator.page(int(pindex1))
     context = {'cart_show' : '0', 'title' : '商品列表', 't1' : t1, 'new_list' : new_list, 'page' : page, 'orderby' : orderby, 'desc' : desc}
     return render(request, 'DailyFresh_goods/list.html', context)
 
@@ -59,7 +61,7 @@ def goods_detail(request, id):
         new_list = goods.gtype.goodsinfo_set.order_by('-id')[0:2]
         context = {'cart_show' : '1', 'title': '商品详细信息', 'new_list' : new_list, 'goods' : goods }
         response = render(request, 'DailyFresh_goods/detail.html', context)
-        # 最近浏览
+        # 最近浏览,切片获取页码
         ids = request.COOKIES.get('goods_ids', '').split(',')
         if id in ids:
             ids.remove(id)
@@ -70,5 +72,5 @@ def goods_detail(request, id):
         response.set_cookie('goods_ids', ','.join(ids), max_age = 60*60*24*7)
         return response
     except Exception as e:
-        print(e)
+        # print(e)
         return render(request, '404.html')

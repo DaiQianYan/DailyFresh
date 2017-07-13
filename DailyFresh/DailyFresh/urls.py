@@ -27,7 +27,9 @@ urlpatterns = [
     # 配置搜索的url
     url(r'^search/', include('haystack.urls')),
     # 配置购物车页面的url
-    url('^cart/',include('DailyFresh_cart.urls')),
+    url(r'^cart/',include('DailyFresh_cart.urls')),
+    # 配置订单页url
+    url(r'^order/', include('DailyFresh_order.urls')),
 
     
 ]

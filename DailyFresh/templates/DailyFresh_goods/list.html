@@ -1,5 +1,30 @@
 {% extends 'DailyFresh_goods/base.html' %}
-{% load filters %}
+
+
+{% block head %}
+<script>
+	function add_cart(gid){
+		//登录判断
+		$.get('/user/islogin/', function(data){
+			if(data.islogin){
+			    //如果登录，则加入购物车
+				$.get('/cart/add/', {'gid' : gid}, function(data){
+				    if(data.isadd){
+				        alert('购买成功');
+						}
+						else{
+				        alert('购买失败，请稍候重试');
+						}
+        });
+			}
+			else{
+			  //如果未登录，则提示登录
+				location.href='/user/login/';
+			}
+    });
+  }
+</script>
+{% endblock head %}
 
 
 {% block detail %}
@@ -12,7 +37,7 @@
 
 
 {% block right %}
-
+{% load filters %}
 	<div class="r_wrap fr clearfix">
 		<div class="sort_bar">
 			<a href="/list{{t1.id}}_1_1/"{% if orderby == '1' %} class="active" {% endif %}>默认</a>
@@ -29,80 +54,80 @@
 					<div class="operate">
 						<span class="prize">￥{{goods.gprice}}</span>
 						<span class="unit">{{goods.gprice}}/{{goods.gunit}}</span>
-						<a href="#" class="add_goods" title="加入购物车"></a>
+						<a href="javascript:add_cart({{goods.id}});" class="add_goods" title="加入购物车"></a>
 					</div>
 				</li>
-			{%endfor%}	
+			{% endfor %}	
 		</ul>
 		
 		<!-- 页面引索 -->
 		<div class="pagenation">
 			<!-- 首页,如果有上一页,显示上一页按钮 -->
 			<!-- 注意,html注释并不能注释模板语言,必须要用模板语言特有的注释 -->
-			{%if page.has_previous%}
-				<a href="/list{{t1.id}}_1_{{orderby}}/">首页</a>&nbsp;&nbsp;
-				<a href="/list{{t1.id}}_{{page.number|add:-1}}_{{orderby}}/"><上一页</a>
-			{%endif%}
+			{% if page.has_previous %}
+				<a href="/list{{t1.id}}_1_{{orderby}}/?desc={{desc}}">首页</a>&nbsp;&nbsp;
+				<a href="/list{{t1.id}}_{{page.number|add:-1}}_{{orderby}}/?desc={{desc}}"><上一页</a>
+			{% endif %}
 			
 			<!-- 中间显示5页,如果总页数小于5,做一个for遍历 -->
 			<!-- 总页数小于5页,循环显示数字页 -->
-			{%if page.paginator.num_pages < 5%}
-				{%for pindex in page.paginator.page_range%}
+			{% if page.paginator.num_pages < 5 %}
+				{% for pindex in page.paginator.page_range %}
 					{% if page.number == pindex %}
 						<a href="#" class="active">{{pindex}}</a>
-					{%else%}
-						<a href="/list{{t1.id}}_{{pindex}}_{{orderby}}/">{{pindex}}</a>
-					{%endif%}
+					{% else %}
+						<a href="/list{{t1.id}}_{{pindex}}_{{orderby}}/?desc={{desc}}">{{pindex}}</a>
+					{% endif %}
 
-				{%endfor%}
+				{% endfor %}
 			<!-- 总页数大于5页,则显示5页 -->
-			{%else%}
+			{% else %}
 				<!-- 第一页 -->
-				{%if page.number == 1%}
+				{% if page.number == 1 %}
 					<a href="#" class="active">1</a>
-					<a href="/list{{t1.id}}_2_{{orderby}}/">2</a>
-					<a href="/list{{t1.id}}_3_{{orderby}}/">3</a>
-					<a href="/list{{t1.id}}_4_{{orderby}}/">4</a>
-					<a href="/list{{t1.id}}_5_{{orderby}}/">5</a>
+					<a href="/list{{t1.id}}_2_{{orderby}}/?desc={{desc}}">2</a>
+					<a href="/list{{t1.id}}_3_{{orderby}}/?desc={{desc}}">3</a>
+					<a href="/list{{t1.id}}_4_{{orderby}}/?desc={{desc}}">4</a>
+					<a href="/list{{t1.id}}_5_{{orderby}}/?desc={{desc}}">5</a>
 				
 				<!-- 第二页 -->
-				{%elif page.number == 2%}
-					<a href="/list{{t1.id}}_1_{{orderby}}/">1</a>
+				{% elif page.number == 2 %}
+					<a href="/list{{t1.id}}_1_{{orderby}}/?desc={{desc}}">1</a>
 					<a href="#" class="active">2</a>
-					<a href="/list{{t1.id}}_3_{{orderby}}/">3</a>
-					<a href="/list{{t1.id}}_4_{{orderby}}/">4</a>
-					<a href="/list{{t1.id}}_5_{{orderby}}/">5</a>
+					<a href="/list{{t1.id}}_3_{{orderby}}/?desc={{desc}}">3</a>
+					<a href="/list{{t1.id}}_4_{{orderby}}/?desc={{desc}}">4</a>
+					<a href="/list{{t1.id}}_5_{{orderby}}/?desc={{desc}}">5</a>
 				
 				<!-- 倒数第二页 -->
-				{%elif page.number == page.paginator.num_pages|add:-1%}
-					<a href="/list{{t1.id}}_{{page.number|add:-3}}_{{orderby}}/">{{page.number|add:-3}}</a>
-					<a href="/list{{t1.id}}_{{page.number|add:-2}}_{{orderby}}/">{{page.number|add:-2}}</a>
-					<a href="/list{{t1.id}}_{{page.number|add:-1}}_{{orderby}}/">{{page.number|add:-1}}</a>
+				{% elif page.number == page.paginator.num_pages|add:-1 %}
+					<a href="/list{{t1.id}}_{{page.number|add:-3}}_{{orderby}}/?desc={{desc}}">{{page.number|add:-3}}</a>
+					<a href="/list{{t1.id}}_{{page.number|add:-2}}_{{orderby}}/?desc={{desc}}">{{page.number|add:-2}}</a>
+					<a href="/list{{t1.id}}_{{page.number|add:-1}}_{{orderby}}/?desc={{desc}}">{{page.number|add:-1}}</a>
 					<a href="#" class="active">{{page.number}}</a>	
-					<a href="/list{{t1.id}}_{{page.number|add:1}}_{{orderby}}/">{{page.number|add:1}}</a>
+					<a href="/list{{t1.id}}_{{page.number|add:1}}_{{orderby}}/?desc={{desc}}">{{page.number|add:1}}</a>
 				
 				<!-- 倒数第一页 -->
-				{%elif page.number == page.paginator.num_pages%}
-					<a href="/list{{t1.id}}_{{page.number|add:-4}}_{{orderby}}/">{{page.number|add:-4}}</a>
-					<a href="/list{{t1.id}}_{{page.number|add:-3}}_{{orderby}}/">{{page.number|add:-3}}</a>
-					<a href="/list{{t1.id}}_{{page.number|add:-2}}_{{orderby}}/">{{page.number|add:-2}}</a>
-					<a href="/list{{t1.id}}_{{page.number|add:-1}}_{{orderby}}/">{{page.number|add:-1}}</a>
+				{% elif page.number == page.paginator.num_pages %}
+					<a href="/list{{t1.id}}_{{page.number|add:-4}}_{{orderby}}/?desc={{desc}}">{{page.number|add:-4}}</a>
+					<a href="/list{{t1.id}}_{{page.number|add:-3}}_{{orderby}}/?desc={{desc}}">{{page.number|add:-3}}</a>
+					<a href="/list{{t1.id}}_{{page.number|add:-2}}_{{orderby}}/?desc={{desc}}">{{page.number|add:-2}}</a>
+					<a href="/list{{t1.id}}_{{page.number|add:-1}}_{{orderby}}/?desc={{desc}}">{{page.number|add:-1}}</a>
 					<a href="#" class="active">{{page.number}}</a>	
 				
 				<!-- 页数大于5,指针指到中间页,前后add运算 -->
-				{%else%}
-					<a href="/list{{t1.id}}_{{page.number|add:-2}}_{{orderby}}/">{{page.number|add:-2}}</a>
-					<a href="/list{{t1.id}}_{{page.number|add:-1}}_{{orderby}}/">{{page.number|add:-1}}</a>
+				{% else %}
+					<a href="/list{{t1.id}}_{{page.number|add:-2}}_{{orderby}}/?desc={{desc}}">{{page.number|add:-2}}</a>
+					<a href="/list{{t1.id}}_{{page.number|add:-1}}_{{orderby}}/?desc={{desc}}">{{page.number|add:-1}}</a>
 					<a href="#" class="active">{{page.number}}</a>	
-					<a href="/list{{t1.id}}_{{page.number|add:-4}}_{{orderby}}/">{{page.number|add:1}}</a>
-					<a href="/list{{t1.id}}_{{page.number|add:-3}}_{{orderby}}/">{{page.number|add:2}}</a>
-				{%endif%}
-			{%endif%}
+					<a href="/list{{t1.id}}_{{page.number|add:-4}}_{{orderby}}/?desc={{desc}}">{{page.number|add:1}}</a>
+					<a href="/list{{t1.id}}_{{page.number|add:-3}}_{{orderby}}/?desc={{desc}}">{{page.number|add:2}}</a>
+				{% endif %}
+			{% endif %}
 
 			<!-- 末页,如果有下一页,显示下一页按钮 -->
 			{%if page.has_next%}
-				<a href="/list{{t1.id}}_{{page.number|add:1}}_{{orderby}}/">下一页</a>&nbsp;&nbsp;
-				<a href="/list{{t1.id}}_{{page.paginator.num_pages}}_{{orderby}}/">末页</a>
+				<a href="/list{{t1.id}}_{{page.number|add:1}}_{{orderby}}/?desc={{desc}}">下一页></a>&nbsp;&nbsp;
+				<a href="/list{{t1.id}}_{{page.paginator.num_pages}}_{{orderby}}/?desc={{desc}}">末页</a>
 			{%endif%}
 
 			<!-- 跳转至某一页面,由于是购物网站,不知道自己的商品在哪里,所以这个功能没有用,就不做了.要做的话,具体实现就是取到用户输入的值再进行跳转 -->

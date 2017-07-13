@@ -56,6 +56,7 @@ def register_handle(request):
 # 用ajax判断用户名是否存在
 def register_valid(request):
     # 接收用户名
+    # uname=request.POST.get('uname')
     uname = request.GET.get('uname')
     # 查询当前用户名的个数.统计查到的结果为个数,因为并不关心对象,只关心有没有
     data = UserInfo.objects.filter(uname = uname).count()
@@ -70,6 +71,19 @@ def login(request):
     uname = request.COOKIES.get('uname', '')
     context = {'title' : '登录', 'uname' : uname, 'top' : '0'}
     return render(request, 'DailyFresh_user/login.html', context)
+
+# 注销登录
+def logout(request):
+    request.session.flush()
+    return redirect('/user/login/')
+
+
+# 登录状态记录
+def islogin(request):
+    result = 0
+    if request.session.has_key('uid'):
+        result = 1
+    return JsonResponse({'islogin' : result})
 
 
 # 登录确认,先写逻辑,再写具体的代码来完善逻辑.
@@ -168,6 +182,3 @@ def site(request):
     # else:
 
 
-def logout(request):
-    request.session.flush()
-    return redirect('/user/login/')
