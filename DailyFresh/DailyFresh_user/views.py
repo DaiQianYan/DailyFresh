@@ -9,6 +9,8 @@ import datetime
 from . import user_decorators
 # 从goods模块引入商品信息GoodsInfo
 from DailyFresh_goods.models import GoodsInfo
+# 引入分页函数
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -150,7 +152,11 @@ def center(request):
 @user_decorators.user_islogin
 # 订单视图
 def order(request):
-    context = {}
+    order_list = OrderMain.objects.filter(user_id = request.session.get('uid'))
+    paginator = Paginator(order_list, 3)
+    pindex = int(request.GET.get('pindex', '1'))
+    page = paginator.page(pindex)
+    context = {'title':'用户订单', 'order_page':page}
     return render(request, 'DailyFresh_user/order.html', context)
 
 

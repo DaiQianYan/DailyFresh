@@ -13,7 +13,7 @@
 					if(data.islogin){
 						$.get('/cart/add/', {'gid' : gid, 'count' : count}, function(data){
 							// 购物车动画
-							if(data.isadd){
+							if(data.isadd==1){
 								var $add_x = $('#add_cart').offset().top;
 								var $add_y = $('#add_cart').offset().left;
 
@@ -30,8 +30,11 @@
 									});
 								});
 							}
-							else{
+							else if(data.isadd==0){
 								alert('购买失败，请稍候重试');
+							}
+							else if(data.isadd==2){
+								alert('库存不足,请与客服联系');
 							}
 						});
 					}

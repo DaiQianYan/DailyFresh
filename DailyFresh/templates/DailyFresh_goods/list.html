@@ -9,12 +9,15 @@
 			if(data.islogin){
 			    //如果登录，则加入购物车
 				$.get('/cart/add/', {'gid' : gid}, function(data){
-				    if(data.isadd){
+				    if(data.isadd==1){
 				        alert('购买成功');
 						}
-						else{
-				        alert('购买失败，请稍候重试');
-						}
+						else if(data.isadd==0){
+								alert('购买失败，请稍候重试');
+							}
+							else if(data.isadd==2){
+								alert('库存不足,请与客服联系');
+							}
         });
 			}
 			else{

@@ -1,3 +1,4 @@
+# coding=utf-8
 from django.db import models
 from DailyFresh_user.models import UserInfo
 from DailyFresh_goods.models import GoodsInfo
@@ -8,7 +9,8 @@ class OrderMain(models.Model):
 	orderid = models.CharField(max_length = 20, primary_key = True)
 	order_time = models.DateTimeField(auto_now_add = True)
 	user = models.ForeignKey(UserInfo)
-	total =models.DecimalField(max_digits = 8, decimal_places =2)
+	total =models.DecimalField(max_digits = 8, decimal_places = 2, default = 0)
+	state = models.IntegerField(default = 0)
 
 
 class OrderDetail(models.Model):
